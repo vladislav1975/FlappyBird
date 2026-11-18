@@ -1,0 +1,25 @@
+
+# ESP-IDF build artifacts
+/build/
+/sdkconfig.old
+
+# ESP-IDF managed components
+/managed_components/
+
+# Python cache
+__pycache__/
+*.py[cod]
+
+# clangd cache
+/.cache/
+
+# Compilation database
+/compile_commands.json
+
+# IDE
+.idea/
+.vscode/
+
+# Temporary files
+*.tmp
+*~
