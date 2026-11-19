@@ -4,6 +4,13 @@ A retro-style Flappy Bird game running on an ESP32 microcontroller.
 
 Built with **ESP-IDF** and **LovyanGFX**, featuring custom pixel-art graphics on a 1.8-inch TFT display.
 
+## Demo
+
+![Flappy Bird running on ESP32]
+<p align="center">
+  <img src="images/flappy_bird.jpeg" alt="Flappy Bird running on ESP32" width="600">
+</p>
+
 ## Hardware
 
 - ESP32 development board (ESP-WROOM-32)
