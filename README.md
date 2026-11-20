@@ -6,7 +6,6 @@ Built with **ESP-IDF** and **LovyanGFX**, featuring custom pixel-art graphics on
 
 ## Demo
 
-![Flappy Bird running on ESP32]
 <p align="center">
   <img src="images/flappy_bird.jpeg" alt="Flappy Bird running on ESP32" width="600">
 </p>
@@ -14,7 +13,29 @@ Built with **ESP-IDF** and **LovyanGFX**, featuring custom pixel-art graphics on
 ## Hardware
 
 - ESP32 development board (ESP-WROOM-32)
-- ST7735 TFT display (128 × 160, SPI)
+- ST7735 TFT display (1.8-inch, 128 × 160, SPI)
+
+### Wiring
+
+**ST7735 TFT ↔ ESP32**
+
+| TFT Pin | ESP32 |
+|---|---|
+| VCC | 3.3V |
+| GND | GND |
+| SCK | GPIO 18 |
+| MOSI | GPIO 23 |
+| MISO | Not connected |
+| CS | GPIO 5 |
+| DC | GPIO 2 |
+| RST | GPIO 4 |
+| LED / BL | GPIO 25 |
+
+**Control**
+
+| Button | ESP32 |
+|---|---|
+| Built-in BOOT button | GPIO 0 |
 
 ## Software
 
