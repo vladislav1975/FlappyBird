@@ -37,6 +37,10 @@ Built with **ESP-IDF** and **LovyanGFX**, featuring custom pixel-art graphics on
 |---|---|
 | Built-in BOOT button | GPIO 0 |
 
+### Wiring Diagram
+
+![ESP32 and ST7735 wiring diagram](images/ESP32_Wiring_Guide.png)
+
 ## Software
 
 - ESP-IDF 5.5
