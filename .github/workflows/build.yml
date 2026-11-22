@@ -5,9 +5,14 @@ on:
   push:
     branches:
       - main
+    tags:
+      - 'v*'
   pull_request:
     branches:
       - main
+
+permissions:
+  contents: write
 
 jobs:
   build:
@@ -16,7 +21,7 @@ jobs:
 
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
         with:
           submodules: recursive
 
@@ -35,3 +40,11 @@ jobs:
           path: build/FlappyBird-full.bin
           if-no-files-found: error
           retention-days: 30
+
+      - name: Publish GitHub Release
+        if: github.ref_type == 'tag'
+        uses: softprops/action-gh-release@v3
+        with:
+          files: build/FlappyBird-full.bin
+          generate_release_notes: true
+          fail_on_unmatched_files: true
