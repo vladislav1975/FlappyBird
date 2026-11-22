@@ -1,3 +1,4 @@
+
 name: ESP-IDF Build
 
 on:
@@ -25,3 +26,11 @@ jobs:
           esp_idf_version: v5.5.6
           target: esp32
           path: .
+
+      - name: Upload firmware
+        uses: actions/upload-artifact@v7
+        with:
+          name: FlappyBird-firmware
+          path: build/FlappyBird.bin
+          if-no-files-found: error
+          retention-days: 30
