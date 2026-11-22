@@ -1,39 +1,52 @@
 #pragma once
 
-// Говорим библиотеке LovyanGFX, что мы используем современную версию интерфейса (V1)
+// Select the LovyanGFX v1 API before including the library header.
 #define LGFX_USE_V1
 #include <LovyanGFX.hpp>
 
-#define SCREEN_WIDTH      128  // Ширина экрана в пикселях
-#define SCREEN_HEIGHT     160  // Высота экрана в пикселях
+#define SCREEN_WIDTH      128  // Native display width in pixels, before rotation.
+#define SCREEN_HEIGHT     160  // Native display height in pixels, before rotation.
 
 // ============================================================================
-// ЦЕНТРАЛИЗОВАННЫЕ НАСТРОЙКИ ПИНОВ
+// CENTRALIZED GPIO PIN ASSIGNMENTS
 // ============================================================================
-#define PIN_NUM_SCLK   18  // Тактовый сигнал SPI (Clock)
-#define PIN_NUM_MOSI   23  // Передача данных от ESP32 к экрану (MOSI)
-#define PIN_NUM_MISO   -1  // Прием данных (не используется)
-#define PIN_NUM_DC     2   // Выбор режима Данные/Команда (Data/Command)
-#define PIN_NUM_CS     5   // Выбор чипа (Chip Select)
-#define PIN_NUM_RST    4   // Аппаратный сброс дисплея (Reset)
-#define PIN_NUM_BCKL   25  // Подсветка экрана (Backlight)
+#define PIN_NUM_SCLK   18  // SPI clock signal.
+#define PIN_NUM_MOSI   23  // SPI MOSI data output from the ESP32 to the display.
+#define PIN_NUM_MISO   -1  // SPI MISO input; set to -1 because display readback is not connected.
+#define PIN_NUM_DC     2   // Display data/command selection signal.
+#define PIN_NUM_CS     5   // Display chip-select signal.
+#define PIN_NUM_RST    4   // Display hardware reset signal.
+#define PIN_NUM_BCKL   25  // Display backlight control signal.
 
 // ============================================================================
-// СОЗДАНИЕ КЛАССА НАСТРОЙКИ ДИСПЛЕЯ
+// DISPLAY DEVICE CONFIGURATION CLASS
 // ============================================================================
+/**
+ * @brief LovyanGFX device configuration for the project's ST7735 TFT display.
+ *
+ * This class binds the SPI bus configuration to the ST7735 panel configuration.
+ * The pin assignments and native panel dimensions are defined above so the
+ * hardware setup can be reviewed and adjusted in one place.
+ */
 class LGFX : public lgfx::LGFX_Device
 {
-  lgfx::Panel_ST7735S _panel_instance; // Драйвер экрана ST7735
-  lgfx::Bus_SPI       _bus_instance;   // Шина SPI
+  lgfx::Panel_ST7735S _panel_instance; // LovyanGFX panel driver for the ST7735 display controller.
+  lgfx::Bus_SPI       _bus_instance;   // SPI bus configuration instance used by the display panel.
 
 public:
+  /**
+   * @brief Configure the SPI bus and attach the ST7735 panel to this device.
+   *
+   * The constructor is called when the global display object is created.
+   * LovyanGFX receives the bus settings first, then the panel settings.
+   */
   LGFX(void)
   {
-    // Настройка шины SPI
+    // Configure the SPI bus used to communicate with the display.
     auto cfg_bus = _bus_instance.config();
     cfg_bus.spi_host   = SPI3_HOST;
     cfg_bus.spi_mode   = 0;
-    cfg_bus.freq_write = 20000000;         // 20 МГц для быстрой отрисовки
+    cfg_bus.freq_write = 20000000;         // Write clock frequency: 20 MHz.
     cfg_bus.freq_read  = 16000000;
     cfg_bus.spi_3wire  = true;
     cfg_bus.use_lock   = true;
@@ -45,7 +58,7 @@ public:
     _bus_instance.config(cfg_bus);
     _panel_instance.setBus(&_bus_instance);
 
-    // Настройка панели дисплея
+    // Configure the ST7735 panel geometry and control pins.
     auto cfg_panel = _panel_instance.config();
     cfg_panel.pin_cs     = PIN_NUM_CS;
     cfg_panel.pin_rst    = PIN_NUM_RST;
@@ -57,7 +70,7 @@ public:
     cfg_panel.offset_x      = 0;
     cfg_panel.offset_y      = 0;
     cfg_panel.readable      = true;
-    cfg_panel.invert        = false;        // Инверсия цветов для правильной палитры вашего экрана
+    cfg_panel.invert        = false;        // Color inversion is disabled for the display's current color configuration.
     cfg_panel.rgb_order     = true;
     cfg_panel.dlen_16bit    = false;
     cfg_panel.bus_shared    = false;
