@@ -26,11 +26,12 @@ jobs:
           esp_idf_version: v5.5.6
           target: esp32
           path: .
+          command: idf.py build && idf.py merge-bin -o FlappyBird-full.bin -f raw
 
       - name: Upload firmware
         uses: actions/upload-artifact@v7
         with:
           name: FlappyBird-firmware
-          path: build/FlappyBird.bin
+          path: build/FlappyBird-full.bin
           if-no-files-found: error
           retention-days: 30
